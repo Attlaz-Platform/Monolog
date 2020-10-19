@@ -1,0 +1,39 @@
+{
+  "name": "attlaz/attlaz-monolog",
+  "description": "Attlaz integration for Monolog",
+  "keywords": [
+    "log",
+    "logging",
+    "monolog",
+    "attlaz"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Stijn Duynslaeger",
+      "email": "hello@attlaz.com",
+      "homepage": "https://attlaz.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.2",
+    "monolog/monolog": "^2.0",
+    "attlaz/client": "dev-develop"
+  },
+  "require-dev": {
+    "ext-json": "*",
+    "phpunit/phpunit": "^8",
+    "inpsyde/php-coding-standards": "^0.13"
+  },
+  "autoload": {
+    "psr-4": {
+      "Attlaz\\AttlazMonolog\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Attlaz\\AttlazMonolog\\Tests\\": "tests/"
+    }
+  }
+}

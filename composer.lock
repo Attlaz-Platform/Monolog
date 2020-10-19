@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dc7687bd368026e6ea8b19a3394aa001",
+    "content-hash": "de8a549da0498cca8e46dc6587362e3d",
     "packages": [
         {
             "name": "attlaz/client",

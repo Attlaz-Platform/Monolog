@@ -19,7 +19,7 @@
   "require": {
     "php": ">=7.2",
     "monolog/monolog": "^2.0",
-    "attlaz/client": "dev-develop"
+    "attlaz/client": "^1.5"
   },
   "require-dev": {
     "ext-json": "*",

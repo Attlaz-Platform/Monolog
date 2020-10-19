@@ -4,27 +4,27 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8f170774c4135ea18072c4b5c25505a1",
+    "content-hash": "7c32c883916b70ba4cd1f97ff2249158",
     "packages": [
         {
             "name": "attlaz/client",
-            "version": "dev-develop",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Attlaz-Platform/PHP-Client.git",
-                "reference": "af8bf9e74bc50d450f4be1e9dec524de65c89560"
+                "reference": "bcb5c8f3d23c4eeecb8a21760c6a0915318d5907"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Attlaz-Platform/PHP-Client/zipball/af8bf9e74bc50d450f4be1e9dec524de65c89560",
-                "reference": "af8bf9e74bc50d450f4be1e9dec524de65c89560",
+                "url": "https://api.github.com/repos/Attlaz-Platform/PHP-Client/zipball/bcb5c8f3d23c4eeecb8a21760c6a0915318d5907",
+                "reference": "bcb5c8f3d23c4eeecb8a21760c6a0915318d5907",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-openssl": "*",
                 "league/oauth2-client": "2.3.*",
-                "php": ">=7.0.0",
+                "php": "^7.0.0",
                 "psr/log": "1.*"
             },
             "type": "library",
@@ -39,7 +39,7 @@
                 "AFL-3.0"
             ],
             "description": "Attlaz PHP Client",
-            "time": "2020-10-17T15:41:15+00:00"
+            "time": "2020-06-29T22:11:35+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -2778,9 +2778,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "attlaz/client": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

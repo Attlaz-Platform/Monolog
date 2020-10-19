@@ -18,7 +18,7 @@
   ],
   "require": {
     "php": ">=7.2",
-    "monolog/monolog": "^2.0",
+    "monolog/monolog": "^1.0",
     "attlaz/client": "^1.5"
   },
   "require-dev": {

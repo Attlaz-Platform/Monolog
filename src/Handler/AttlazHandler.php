@@ -16,25 +16,26 @@ class AttlazHandler extends AbstractProcessingHandler
 {
     private $client;
     private $maxLogMessageLength = 5000;
-    private $projectKey;
-    private $projectEnvironmentKey;
+    private $projectId;
+    private $projectEnvironmentId;
 
 
-    public function __construct(Client $client, int $level = Logger::DEBUG, bool $bubble = true)
+    public function __construct(Client $client = null, int $level = Logger::DEBUG, bool $bubble = true)
     {
         parent::__construct($level, $bubble);
         $this->client = $client;
     }
 
-    public function setClient(Client $attlazClient):void{
+    public function setClient(Client $attlazClient): void
+    {
         $this->client = $attlazClient;
     }
 
 
-    public function setProject(string $projectKey, string $projectEnvironmentKey): void
+    public function setProject(string $projectId, string $projectEnvironmentId): void
     {
-        $this->projectKey = $projectKey;
-        $this->projectEnvironmentKey = $projectEnvironmentKey;
+        $this->projectId = $projectId;
+        $this->projectEnvironmentId = $projectEnvironmentId;
     }
 
 
@@ -46,6 +47,24 @@ class AttlazHandler extends AbstractProcessingHandler
         $logEntry = new LogEntry($record['message'], strtolower($record['level_name']));
         $logEntry->date = $record['datetime'];
         $logEntry->context = $record['context'];
+
+
+        if (isset($this->projectId) && isset($this->projectEnvironmentId)) {
+            $logEntry->tags[] = [
+                'key' => 'project',
+                'value' => $this->projectId,
+            ];
+            $logEntry->tags[] = [
+                'key' => 'project_environment',
+                'value' => $this->projectEnvironmentId,
+            ];
+            $logEntry->tags[] = [
+                'key' => 'type',
+                'value' => 'project',
+            ];
+        }
+
+
         if (isset($record['extra']['execution'])) {
             //TODO: what is the log entry type when no task execution is defined?
             //                $logEntry->context['taskexecution'] = $record['extra']['execution'];
@@ -60,22 +79,6 @@ class AttlazHandler extends AbstractProcessingHandler
                 'value' => 'taskexecution',
             ];
         } else {
-            if (isset($this->projectKey) && isset($this->projectEnvironmentKey)) {
-                $logEntry->tags[] = [
-                    'key' => 'project',
-                    'value' => $this->projectKey,
-                ];
-                $logEntry->tags[] = [
-                    'key' => 'project_environment',
-                    'value' => $this->projectEnvironmentKey,
-                ];
-
-
-                $logEntry->tags[] = [
-                    'key' => 'type',
-                    'value' => 'project',
-                ];
-            }
 
 
         }
@@ -97,6 +100,11 @@ class AttlazHandler extends AbstractProcessingHandler
 
     protected function write(array $record): void
     {
+
+
+        if (\is_null($this->client)) {
+            return;
+        }
         try {
             if (isset($record['formatted'])) {
                 $record = $record['formatted'];
@@ -106,6 +114,7 @@ class AttlazHandler extends AbstractProcessingHandler
 
             $logEntryId = $this->client->saveLog($logEntry);
 
+//            \var_dump($logEntry);
             // echo 'Saved log entry: ' . $logEntryId . \PHP_EOL;
         } catch (\Throwable $ex) {
             //  echo 'Unable to save Log: ' . $ex->getMessage() . PHP_EOL;

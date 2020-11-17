@@ -32,7 +32,7 @@ class AttlazHandler extends AbstractProcessingHandler
     }
 
 
-    public function setProject(string $projectId, string $projectEnvironmentId): void
+    public function setProject(string $projectId, int $projectEnvironmentId): void
     {
         $this->projectId = $projectId;
         $this->projectEnvironmentId = $projectEnvironmentId;
@@ -117,12 +117,13 @@ class AttlazHandler extends AbstractProcessingHandler
 //            \var_dump($logEntry);
             // echo 'Saved log entry: ' . $logEntryId . \PHP_EOL;
         } catch (\Throwable $ex) {
+            // TODO: should we write this to a panic log?
             //  echo 'Unable to save Log: ' . $ex->getMessage() . PHP_EOL;
             // var_dump(\substr($logEntry->message, 0, 500));
 
             // echo $ex->getTraceAsString() . \PHP_EOL;
 
-            throw $ex;
+           // throw $ex;
         }
     }
     /**

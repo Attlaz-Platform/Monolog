@@ -32,6 +32,16 @@ class AttlazHandler extends AbstractProcessingHandler
         $this->client = $attlazClient;
     }
 
+    public function setLogStreamId(LogStreamId $logStreamId): void
+    {
+        $this->logStreamId = $logStreamId;
+    }
+
+    public function getLogStreamId(): LogStreamId
+    {
+        return $this->logStreamId;
+    }
+
 
     private function recordToLogEntry(array $record): LogEntry
     {

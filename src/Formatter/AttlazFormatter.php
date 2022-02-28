@@ -14,7 +14,12 @@ class AttlazFormatter extends NormalizerFormatter implements FormatterInterface
     public function format(array $record)
     {
         if (isset($record['context'])) {
-            $record['context'] = $this->formatContext($record['context']);
+            $formattedContext = $this->formatContext($record['context']);
+            if (\is_null($formattedContext)) {
+                unset($record['context']);
+            } else {
+                $record['context'] = $formattedContext;
+            }
         }
 
         return $record;
@@ -26,8 +31,11 @@ class AttlazFormatter extends NormalizerFormatter implements FormatterInterface
         return $records;
     }
 
-    private function formatContext(array $context): array
+    private function formatContext(array $context): ?array
     {
+        if (\count($context) === 0) {
+            return null;
+        }
         $result = [];
 
         foreach ($context as $key => $value) {
@@ -37,7 +45,7 @@ class AttlazFormatter extends NormalizerFormatter implements FormatterInterface
         return $result;
     }
 
-    protected function normalizeException($e)
+    protected function normalizeException(\Throwable $e, int $depth = 0)
     {
         $data = parent::normalizeException($e);
         if (\is_a($e, '\Attlaz\Project\Exception\RuntimeException')) {

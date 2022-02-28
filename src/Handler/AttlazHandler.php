@@ -8,22 +8,22 @@ namespace Attlaz\AttlazMonolog\Handler;
 use Attlaz\AttlazMonolog\Formatter\AttlazFormatter;
 use Attlaz\Client;
 use Attlaz\Model\LogEntry;
+use Attlaz\Model\LogStreamId;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
 
 class AttlazHandler extends AbstractProcessingHandler
 {
-    private $client;
-    private $maxLogMessageLength = 5000;
-    private $projectId;
-    private $projectEnvironmentId;
+    private Client $client;
+    private int $maxLogMessageLength = 5000;
+    private LogStreamId $logStreamId;
 
-
-    public function __construct(Client $client = null, int $level = Logger::DEBUG, bool $bubble = true)
+    public function __construct(Client $client, LogStreamId $logStreamId, int $level = Logger::DEBUG, bool $bubble = true)
     {
         parent::__construct($level, $bubble);
         $this->client = $client;
+        $this->logStreamId = $logStreamId;
     }
 
     public function setClient(Client $attlazClient): void
@@ -31,61 +31,21 @@ class AttlazHandler extends AbstractProcessingHandler
         $this->client = $attlazClient;
     }
 
-
-    public function setProject(string $projectId, int $projectEnvironmentId): void
-    {
-        $this->projectId = $projectId;
-        $this->projectEnvironmentId = $projectEnvironmentId;
-    }
-
-
     private function recordToLogEntry(array $record): LogEntry
     {
         //TODO: check message length, if its to long, break the message in parts or skip
 
+        //echo 'MEM used: ' . \Echron\Tools\Bytes::readable(memory_get_usage(true)) . ' MEM peak: ' . \Echron\Tools\Bytes::readable(memory_get_peak_usage(true)) . \PHP_EOL;
 
-        $logEntry = new LogEntry($record['message'], strtolower($record['level_name']));
-        $logEntry->date = $record['datetime'];
+
+        $message = $record['message'];
+        if (\strlen($message) > $this->maxLogMessageLength) {
+            $message = \substr($message, 0, $this->maxLogMessageLength) . ' ...';
+            // TODO: We should inform that the message is cutted off
+        }
+        $logEntry = new LogEntry($this->logStreamId, $message, strtolower($record['level_name']), $record['datetime']);
+
         $logEntry->context = $record['context'];
-
-
-        if (isset($this->projectId) && isset($this->projectEnvironmentId)) {
-            $logEntry->tags[] = [
-                'key' => 'project',
-                'value' => $this->projectId,
-            ];
-            $logEntry->tags[] = [
-                'key' => 'project_environment',
-                'value' => $this->projectEnvironmentId,
-            ];
-            $logEntry->tags[] = [
-                'key' => 'type',
-                'value' => 'project',
-            ];
-        }
-
-
-        if (isset($record['extra']['execution'])) {
-            //TODO: what is the log entry type when no task execution is defined?
-            //                $logEntry->context['taskexecution'] = $record['extra']['execution'];
-            //                $logEntry->type = 'taskexecution';
-
-            $logEntry->tags[] = [
-                'key' => 'taskexecution',
-                'value' => $record['extra']['execution'],
-            ];
-            $logEntry->tags[] = [
-                'key' => 'type',
-                'value' => 'taskexecution',
-            ];
-        } else {
-
-
-        }
-
-        if (\strlen($logEntry->message) > $this->maxLogMessageLength) {
-            $logEntry->message = \substr($logEntry->message, 0, $this->maxLogMessageLength);
-        }
 
         // TODO: what if 'extra' is already defined?
         if (isset($record['extra'])) {
@@ -112,7 +72,7 @@ class AttlazHandler extends AbstractProcessingHandler
 
             $logEntry = $this->recordToLogEntry($record);
 
-            $logEntryId = $this->client->saveLog($logEntry);
+            $logEntryId = $this->client->getLogEndpoint()->saveLog($logEntry);
 
 //            \var_dump($logEntry);
             // echo 'Saved log entry: ' . $logEntryId . \PHP_EOL;
@@ -123,7 +83,7 @@ class AttlazHandler extends AbstractProcessingHandler
 
             // echo $ex->getTraceAsString() . \PHP_EOL;
 
-           // throw $ex;
+            // throw $ex;
         }
     }
     /**

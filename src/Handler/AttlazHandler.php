@@ -81,12 +81,13 @@ class AttlazHandler extends AbstractProcessingHandler
 
             // echo 'Saved log entry: ' . $logEntryId . \PHP_EOL;
         } catch (\Throwable $ex) {
-            //  echo 'Unable to save Log: ' . $ex->getMessage() . PHP_EOL;
+
+            echo 'Unable to save log to Attlaz: ' . $ex->getMessage() . PHP_EOL;
             // var_dump(\substr($logEntry->message, 0, 500));
 
             // echo $ex->getTraceAsString() . \PHP_EOL;
 
-            throw $ex;
+//            throw $ex;
         }
     }
     /**

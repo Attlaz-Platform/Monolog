@@ -1,9 +1,7 @@
 <?php
 declare(strict_types=1);
 
-
 namespace Attlaz\AttlazMonolog\Handler;
-
 
 use Attlaz\AttlazMonolog\Formatter\AttlazFormatter;
 use Attlaz\Client;
@@ -18,6 +16,8 @@ class AttlazHandler extends AbstractProcessingHandler
     private Client $client;
     private LogStreamId $logStreamId;
     private int $maxLogMessageLength = 5000;
+
+    public const CONTEXT_SKIP = '_skip';
 
 
     public function __construct(Client $client, LogStreamId $logStreamId, int $level = Logger::DEBUG, bool $bubble = true)
@@ -42,10 +42,11 @@ class AttlazHandler extends AbstractProcessingHandler
         return $this->logStreamId;
     }
 
-
-    private function recordToLogEntry(array $record): LogEntry
+    private function recordToLogEntry(array $record): ?LogEntry
     {
-
+        if (isset($record['context']) && isset($record['context'][self::CONTEXT_SKIP])) {
+            return null;
+        }
 
         $message = $record['message'];
         if (\strlen($message) > $this->maxLogMessageLength) {
@@ -58,7 +59,7 @@ class AttlazHandler extends AbstractProcessingHandler
 
 
         // TODO: what if 'extra' is already defined?
-        if (isset($record['extra'])) {
+        if (isset($record['extra']) && \count($record['extra']) > 0) {
             $logEntry->context['extra'] = $record['extra'];
         }
         //TODO: combine extra with context?
@@ -66,8 +67,7 @@ class AttlazHandler extends AbstractProcessingHandler
         return $logEntry;
     }
 
-// TODO: implement batch handling
-
+    // TODO: implement batch handling
     protected function write(array $record): void
     {
         try {
@@ -76,18 +76,11 @@ class AttlazHandler extends AbstractProcessingHandler
             }
 
             $logEntry = $this->recordToLogEntry($record);
-
-            $savedLogEntry = $this->client->getLogEndpoint()->saveLog($logEntry);
-
-            // echo 'Saved log entry: ' . $logEntryId . \PHP_EOL;
+            if (!\is_null($logEntry)) {
+                $savedLogEntry = $this->client->getLogEndpoint()->saveLog($logEntry);
+            }
         } catch (\Throwable $ex) {
-
             echo 'Unable to save log to Attlaz: ' . $ex->getMessage() . PHP_EOL;
-            // var_dump(\substr($logEntry->message, 0, 500));
-
-            // echo $ex->getTraceAsString() . \PHP_EOL;
-
-//            throw $ex;
         }
     }
     /**

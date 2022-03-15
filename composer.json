@@ -17,13 +17,13 @@
     }
   ],
   "require": {
-    "php": ">=7.4",
+    "php": ">=7.2 | >=7.4 | >=8.0",
     "monolog/monolog": "^2.0",
-    "attlaz/client": "^1.7.0"
+    "attlaz/client": "1.5.7 | ^1.7.0"
   },
   "require-dev": {
     "ext-json": "*",
-    "phpunit/phpunit": "^9",
+    "phpunit/phpunit": "^8 | ^9",
     "inpsyde/php-coding-standards": "^1.0.0"
   },
   "autoload": {
@@ -34,6 +34,11 @@
   "autoload-dev": {
     "psr-4": {
       "Attlaz\\AttlazMonolog\\Tests\\": "tests/"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
     }
   }
 }

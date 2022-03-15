@@ -13,9 +13,9 @@ use Monolog\Logger;
 
 class AttlazHandler extends AbstractProcessingHandler
 {
-    private Client $client;
-    private LogStreamId $logStreamId;
-    private int $maxLogMessageLength = 5000;
+    private $client;
+    private $logStreamId;
+    private $maxLogMessageLength = 5000;
 
     public const CONTEXT_SKIP = '_skip';
 

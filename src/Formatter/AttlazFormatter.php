@@ -45,7 +45,7 @@ class AttlazFormatter extends NormalizerFormatter implements FormatterInterface
         return $result;
     }
 
-    protected function normalizeException(\Throwable $e, int $depth = 0)
+    protected function normalizeException($e)
     {
         $data = parent::normalizeException($e);
         if (\is_a($e, '\Attlaz\Project\Exception\RuntimeException')) {

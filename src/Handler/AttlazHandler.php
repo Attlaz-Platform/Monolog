@@ -7,8 +7,8 @@ namespace Attlaz\AttlazMonolog\Handler;
 
 use Attlaz\AttlazMonolog\Formatter\AttlazFormatter;
 use Attlaz\Client;
-use Attlaz\Model\LogEntry;
-use Attlaz\Model\LogStreamId;
+use Attlaz\Model\Log\LogEntry;
+use Attlaz\Model\Log\LogStreamId;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
@@ -45,7 +45,9 @@ class AttlazHandler extends AbstractProcessingHandler
         }
         $logEntry = new LogEntry($this->logStreamId, $message, strtolower($record['level_name']), $record['datetime']);
 
+        if (isset($record['context'])) {
         $logEntry->context = $record['context'];
+        }
 
         // TODO: what if 'extra' is already defined?
         if (isset($record['extra'])) {
@@ -74,10 +76,12 @@ class AttlazHandler extends AbstractProcessingHandler
 
             $logEntryId = $this->client->getLogEndpoint()->saveLog($logEntry);
 
-//            \var_dump($logEntry);
-            // echo 'Saved log entry: ' . $logEntryId . \PHP_EOL;
         } catch (\Throwable $ex) {
-            // TODO: should we write this to a panic log?
+            // TODO: Write this to a panic log?
+//            throw  $ex;
+//            \var_dump($ex->getMessage());
+//            die('--');
+
             //  echo 'Unable to save Log: ' . $ex->getMessage() . PHP_EOL;
             // var_dump(\substr($logEntry->message, 0, 500));
 

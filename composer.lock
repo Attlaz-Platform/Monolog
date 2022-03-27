@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c22b9684f9bb76b316a8c58541b2f8fa",
+    "content-hash": "d53cbd24d084ee8907bc5087552c7c37",
     "packages": [
         {
             "name": "attlaz/client",
-            "version": "1.7.5",
+            "version": "1.7.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Attlaz-Platform/PHP-Client.git",
-                "reference": "cb58f416d873f85dcce74ed2d3143ddb5d905bc2"
+                "reference": "7ff19c1d4dacef11ff4ff979ccf3f20056ffb0fa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Attlaz-Platform/PHP-Client/zipball/cb58f416d873f85dcce74ed2d3143ddb5d905bc2",
-                "reference": "cb58f416d873f85dcce74ed2d3143ddb5d905bc2",
+                "url": "https://api.github.com/repos/Attlaz-Platform/PHP-Client/zipball/7ff19c1d4dacef11ff4ff979ccf3f20056ffb0fa",
+                "reference": "7ff19c1d4dacef11ff4ff979ccf3f20056ffb0fa",
                 "shasum": ""
             },
             "require": {
@@ -46,9 +46,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Attlaz-Platform/PHP-Client/issues",
-                "source": "https://github.com/Attlaz-Platform/PHP-Client/tree/1.7.5"
+                "source": "https://github.com/Attlaz-Platform/PHP-Client/tree/1.7.6"
             },
-            "time": "2022-03-03T01:33:52+00:00"
+            "time": "2022-03-27T19:16:19+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

@@ -17,9 +17,9 @@
     }
   ],
   "require": {
-    "php": ">=7.2 | >=7.4 | >=8.0",
+    "php": ">=7.4 | >=8.0",
     "monolog/monolog": "^2.0",
-    "attlaz/client": "1.5.7 | ^1.7.0"
+    "attlaz/client": "^1.7.7"
   },
   "require-dev": {
     "ext-json": "*",

@@ -14,19 +14,20 @@ class AttlazFormatter extends NormalizerFormatter implements FormatterInterface
 
     public function format(LogRecord $record)
     {
+        $arrRecord = $record->toArray();
 
-        if (isset($record->context)) {
-            $record['context'] = $this->formatContext($record->context);
+        if (isset($arrRecord['context'])) {
+            $arrRecord['context'] = $this->formatContext($arrRecord['context']);
         }
 
-        return $record;
+        return $arrRecord;
     }
 
-    public function formatBatch(array $records)
-    {
-        // TODO: Implement formatBatch() method.
-        return $records;
-    }
+//    public function formatBatch(array $records)
+//    {
+//        // TODO: Implement formatBatch() method.
+//        return $records;
+//    }
 
     private function formatContext(array $context): array
     {

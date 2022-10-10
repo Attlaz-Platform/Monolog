@@ -7,24 +7,27 @@ namespace Attlaz\AttlazMonolog\Formatter;
 
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\NormalizerFormatter;
+use Monolog\LogRecord;
 
 class AttlazFormatter extends NormalizerFormatter implements FormatterInterface
 {
 
-    public function format(array $record)
+    public function format(LogRecord $record)
     {
-        if (isset($record['context'])) {
-            $record['context'] = $this->formatContext($record['context']);
+        $arrRecord = $record->toArray();
+
+        if (isset($arrRecord['context'])) {
+            $arrRecord['context'] = $this->formatContext($arrRecord['context']);
         }
 
-        return $record;
+        return $arrRecord;
     }
 
-    public function formatBatch(array $records)
-    {
-        // TODO: Implement formatBatch() method.
-        return $records;
-    }
+//    public function formatBatch(array $records)
+//    {
+//        // TODO: Implement formatBatch() method.
+//        return $records;
+//    }
 
     private function formatContext(array $context): array
     {

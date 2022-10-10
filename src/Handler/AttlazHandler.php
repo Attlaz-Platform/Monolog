@@ -9,18 +9,18 @@ use Attlaz\Model\Log\LogEntry;
 use Attlaz\Model\Log\LogStreamId;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Handler\AbstractProcessingHandler;
-use Monolog\Logger;
+use Monolog\Level;
 
 class AttlazHandler extends AbstractProcessingHandler
 {
-    private $client;
-    private $logStreamId;
-    private $maxLogMessageLength = 5000;
+    private Client $client;
+    private LogStreamId $logStreamId;
+    private int $maxLogMessageLength = 5000;
 
     public const CONTEXT_SKIP = '_skip';
 
 
-    public function __construct(Client $client, LogStreamId $logStreamId, int $level = Logger::DEBUG, bool $bubble = true)
+    public function __construct(Client $client, LogStreamId $logStreamId, Level $level = Level::Debug, bool $bubble = true)
     {
         parent::__construct($level, $bubble);
         $this->client = $client;
@@ -68,7 +68,7 @@ class AttlazHandler extends AbstractProcessingHandler
     }
 
     // TODO: implement batch handling
-    protected function write(array $record): void
+    protected function write(array|\Monolog\LogRecord $record): void
     {
         try {
             if (isset($record['formatted'])) {

@@ -5,8 +5,8 @@ namespace Attlaz\AttlazMonolog\Handler;
 
 use Attlaz\AttlazMonolog\Formatter\AttlazFormatter;
 use Attlaz\Client;
-use Attlaz\Model\LogEntry;
-use Attlaz\Model\LogStreamId;
+use Attlaz\Model\Log\LogEntry;
+use Attlaz\Model\Log\LogStreamId;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;

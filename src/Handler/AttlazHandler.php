@@ -80,7 +80,8 @@ class AttlazHandler extends AbstractProcessingHandler
                 $savedLogEntry = $this->client->getLogEndpoint()->saveLog($logEntry);
             }
         } catch (\Throwable $ex) {
-            echo 'Unable to save log to Attlaz: ' . $ex->getMessage() . PHP_EOL;
+            // TODO: log to emergency log or add to queue and try again later
+            //echo 'Unable to save log to Attlaz: ' . $ex->getMessage() . PHP_EOL;
         }
     }
     /**

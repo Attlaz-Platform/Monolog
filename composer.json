@@ -19,7 +19,7 @@
   "require": {
     "php": ">=8.1",
     "monolog/monolog": "^3.0",
-    "attlaz/client": "^1.7.7",
+    "attlaz/client": "^1.9.6",
     "psr/log": "^2.0 || ^3.0"
   },
   "require-dev": {

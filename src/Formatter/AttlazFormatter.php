@@ -44,9 +44,7 @@ class AttlazFormatter extends NormalizerFormatter implements FormatterInterface
     {
         $data = parent::normalizeException($e);
 
-        if (\is_a($e, '\Attlaz\Project\Exception\RuntimeException')) {
-            $data['context'] = $e->getContext();
-        } elseif (\is_a($e, ContextualException::class)) {
+        if (\is_a($e, ContextualException::class)) {
             $data['context'] = $e->getContext();
         }
 

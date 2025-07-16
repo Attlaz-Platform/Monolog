@@ -26,17 +26,6 @@ class AttlazFormatter extends NormalizerFormatter implements FormatterInterface
         return $arrRecord;
     }
 
-    private function formatContext(array $context): array
-    {
-        $result = [];
-
-        foreach ($context as $key => $value) {
-            $result[$key] = $this->normalize($value);
-        }
-
-        return $result;
-    }
-
     /**
      * @inheritdoc
      */
@@ -49,5 +38,17 @@ class AttlazFormatter extends NormalizerFormatter implements FormatterInterface
         }
 
         return $data;
+    }
+
+    private function formatContext(array $context): array
+    {
+        $result = [];
+
+        foreach ($context as $key => $value) {
+            // TODO: watch out with really big objects!
+            $result[$key] = $this->normalize($value);
+        }
+
+        return $result;
     }
 }

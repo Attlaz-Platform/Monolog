@@ -10,6 +10,7 @@ use Attlaz\Model\Log\LogStreamId;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Level;
+use Monolog\LogRecord;
 
 class AttlazHandler extends AbstractProcessingHandler
 {
@@ -40,7 +41,7 @@ class AttlazHandler extends AbstractProcessingHandler
         $this->logStreamId = $logStreamId;
     }
 
-    protected function write(array|\Monolog\LogRecord $record): void
+    protected function write(array|LogRecord $record): void
     {
         try {
             if (isset($record['formatted'])) {
@@ -59,6 +60,16 @@ class AttlazHandler extends AbstractProcessingHandler
 
     // TODO: implement batch handling
 
+
+
+    protected function getDefaultFormatter(): FormatterInterface
+    {
+        return new AttlazFormatter();
+    }
+    /**
+     * @inheritdoc
+     */
+    // phpcs:disable InpsydeCodingStandard.CodeQuality.NoAccessors.NoGetter
     private function recordToLogEntry(array $record): LogEntry|null
     {
         if (isset($record['context'][self::CONTEXT_SKIP])) {
@@ -82,14 +93,5 @@ class AttlazHandler extends AbstractProcessingHandler
         //TODO: combine extra with context?
 
         return $logEntry;
-    }
-    /**
-     * @inheritdoc
-     */
-    // phpcs:disable InpsydeCodingStandard.CodeQuality.NoAccessors.NoGetter
-
-    protected function getDefaultFormatter(): FormatterInterface
-    {
-        return new AttlazFormatter();
     }
 }

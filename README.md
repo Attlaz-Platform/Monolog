@@ -35,6 +35,7 @@ $log->error('Bar');
 
 ### Requirements
 
+- Attlaz Monolog `^2.2` works with PHP 8.2 and above
 - Attlaz Monolog `^2.0` works with PHP 8.1 and above
 - Attlaz Monolog `^1.0` works with PHP 7.2 and above
 - Attlaz Monolog `^0.0` works with PHP 5.3 up to 8.1 (No longer maintained)

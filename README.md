@@ -1,5 +1,7 @@
 # Attlaz Monolog Handler
 
+[![Latest Stable Version](https://img.shields.io/packagist/v/attlaz/attlaz-monolog.svg)](https://packagist.org/packages/attlaz/attlaz-monolog)
+
 This package allows you to integrate [Attlaz](https://attlaz.com) into Monolog.
 
 ## Installation

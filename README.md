@@ -16,19 +16,23 @@ $ composer require attlaz/attlaz-monolog
 <?php
 
 use Monolog\Logger;
-use \Attlaz\Client;
-use \Attlaz\AttlazMonolog\Handler\AttlazHandler;
+use Monolog\Level;
+use Attlaz\Client;
+use Attlaz\Model\Log\LogStreamId;
+use Attlaz\AttlazMonolog\Handler\AttlazHandler;
 
-$attlazClient = new Client('<your-token>', '<your-token>');
+$client = new Client();
+$client->authWithToken('<your-token>');
+// or: $client->authWithClient('<client-id>', '<client-secret>');
 
-$attlazHandler = new AttlazHandler($client, new LogStreamId('Vt9HtWRee'), Level::Info);
+$handler = new AttlazHandler($client, new LogStreamId('Vt9HtWRee'), Level::Info);
 
-/** @var $logger Monolog\Logger */
-$logger->pushHandler($attlazHandler);
+$logger = new Logger('my-channel');
+$logger->pushHandler($handler);
 
 // Add records to the log
-$log->warning('Foo');
-$log->error('Bar');
+$logger->warning('Foo');
+$logger->error('Bar');
 ```
 
 ## About
